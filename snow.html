@@ -1,0 +1,105 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title>snow3</title>
+        <style>
+            body{
+                margin:0px;
+                padding:0px;
+                font-size:14px;
+            }
+            .wrap{
+                position:relative;
+                background-color:#539257;
+                height:100%;
+            }
+            canvas{
+                background-color:#CCCCCC;
+                display: block;
+                width: 100%;
+                height:100%;
+            }
+            .bg{
+                position:absolute;
+                z-index:1;
+                top:0px;
+                width:100%;
+                left:0px;
+                margin-top:100px;
+            }
+            h1{
+                font-size:20px;
+            }
+            .content{
+                position:relative;
+                z-index:2;
+                text-align:center;
+                color:rgba(255,255,255,0.99);
+                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <canvas id="canvas"></canvas>
+        </div>
+        <script>
+            window.onload = function(){
+                var canvas = document.getElementById("canvas"),
+                    c = canvas.getContext('2d'),
+                    particles = [],
+                    partNum = 30,//雪花数30
+                    colorDist = ["red","blue","white"];//雪花颜色三种：蓝色、黄色、白色
+                    
+                c.fillStyle = "#14231E";
+                c.fillRect(0,0,canvas.width,canvas.height);
+                main();
+                
+                function main(){
+                    snowData();
+                    drawSnow();
+                    moveSnow();
+                }
+                function snowData(){//设每片雪花参数
+                    for(var i=0; i<partNum; ++i){
+                        var cNum = parseInt(Math.random() * colorDist.length + 0);
+                        particles.push({
+                            x: Math.random()*canvas.width,//在canvas随机出现的x轴坐标
+                            y: 0,//在canvas的y坐标为0上出现
+                            speed: 1+Math.random()*2, //雪花速度的随机数范围
+                            radius: 0.01+Math.random()*1, //雪花大小的随机数范围
+                            color: colorDist[cNum]//随机一种雪花颜色
+                        });
+                    }
+                }
+                function drawSnow(){//画雪花
+                    c.fillStyle = "#14231E";
+                    c.fillRect(0,0,canvas.width,canvas.height);
+                    for(var i=0; i<particles.length; i++){
+                        var part = particles[i];
+                        c.beginPath();
+                        c.arc(part.x,part.y, part.radius, 0, Math.PI*2);
+                        c.closePath();
+                        c.fillStyle = part.color;
+                        c.fill();
+                        console.log("x: " + part.x + "y: " + part.y + "radius: " + part.radius + "; color: " + part.color + "; speed: " + part.speed);
+                    }
+                    updateSnowY();
+                }
+                function updateSnowY(){//更新雪花Y坐标
+                    for(var i=0; i<particles.length; i++){
+                        particles[i].y += particles[i].speed;
+                        if(particles[i].y>canvas.height){
+                            particles[i].y = 10;
+                        }
+                    }
+                }
+                function moveSnow(){//雪花运动
+                    setInterval(drawSnow,40);//40ms后canvas重绘
+                }
+            }
+        </script>
+    </body>
+</html>

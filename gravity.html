@@ -1,8 +1,9 @@
+
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-		<title>弹弹弹弹2</title>
+		<title>弹弹弹弹7</title>
 		<style>
 			html,body{margin: 0;padding: 0;}
 			body{position: relative;height: 100%;}
@@ -32,7 +33,6 @@
 		<script>
 			var g_test = document.getElementById("g_test"),
 				wording = document.getElementById("wording"),
-				wording1 = document.getElementById("wording1"),
 				wording2 = document.getElementById("wording2"),
 				dot = document.getElementById("dot"),
 				windowW = window.innerWidth,
@@ -52,8 +52,8 @@
 						var angle = parseInt(e.alpha),
 							radius = e.alpha * (Math.PI / 180);
 						
-						wording.innerHTML = 'gamma is ' + e.gamma + '; beta is ' + e.beta + '; alpha is ' + e.alpha +'; width is ' + windowW + "; height is " + windowH + "; move to x " + X(radius) + "; move to y " + Y(radius);
-						wording1.innerHTML = 'tanY is11 ' + Math.tan(radius) + "<br />sinY is " + Math.sin(radius) + "<br />cosY is " + Math.cos(radius) + "<br/><br/> move to x " + X(radius) + "<br/>move to y " + Y(radius);
+						wording.innerHTML = 'client width is ' + windowW + '<br/>client height is ' + windowH + '<br/>alpha is ' + e.alpha + '<br/>beta is ' + e.beta + '<br/>gamma is ' + e.gamma +'<br />dist x is ' + X(radius) + "<br/>dist y is " + Y(radius);
+						
 						wording2.innerHTML = 'webkitTransform:translate(' + X(radius) + 'px, ' + Y(radius) + 'px)';
 						dot.style.webkitTransform = 'translate(' + X(radius) + 'px, ' + Y(radius) + 'px)';
 						
@@ -63,17 +63,13 @@
 			
 			function X(alpha){//x轴上的位移
 				var x = windowH/2 * Math.sin(alpha);//xy[0]为x值，xy[1]为y值
-				if(x>windowH/2){
-					return windowH/2
-				}else if(x<-windowH/2){
-					return -windowH/2
-				}else{
-					return x;
-				}
+				return x;
 			}
 			function Y(alpha){//y轴上的位移
-				var y = (windowW / 2) - (windowW / 2) * Math.cos(alpha);
-				return -y;
+				/*var y = (windowW / 2) - (windowW / 2) * Math.cos(alpha);
+				return -y;*/
+				var y = -(windowW / 2) * Math.cos(alpha) - windowW / 2;
+				return y;
 			}
 		</script>
 	</body>
