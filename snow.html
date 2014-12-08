@@ -3,8 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <title>snow3</title>
+        <title>snow1</title>
         <style>
+            html{
+                height:100%;
+            }
             body{
                 margin:0px;
                 padding:0px;
@@ -13,13 +16,11 @@
             .wrap{
                 position:relative;
                 background-color:#539257;
-                height:100%;
             }
             canvas{
                 background-color:#CCCCCC;
                 display: block;
                 width: 100%;
-                height:100%;
             }
             .bg{
                 position:absolute;
@@ -37,22 +38,26 @@
                 z-index:2;
                 text-align:center;
                 color:rgba(255,255,255,0.99);
-                
             }
         </style>
     </head>
     <body>
         <div class="wrap">
             <canvas id="canvas"></canvas>
+            <!--<img class="bg" src="<%@GetResFullName($images_path$snow/bg.png)%>" />
+            <div class="content">
+                <h1>恭喜获得小奖品</h1>
+                <p>请在晚宴门口兑换</p>
+            </div>-->
         </div>
         <script>
             window.onload = function(){
+                console.log("start");
                 var canvas = document.getElementById("canvas"),
                     c = canvas.getContext('2d'),
-                    particles = [],
-                    partNum = 30,//雪花数30
-                    colorDist = ["red","blue","white"];//雪花颜色三种：蓝色、黄色、白色
-                    
+                    particles = [],//雪花数30
+                    colorDist = ["#5A7AA9","#FCE7A5","white"];//雪花颜色三种：蓝色、黄色、白色
+                canvas.height = window.innerHeight;
                 c.fillStyle = "#14231E";
                 c.fillRect(0,0,canvas.width,canvas.height);
                 main();
@@ -63,14 +68,15 @@
                     moveSnow();
                 }
                 function snowData(){//设每片雪花参数
-                    for(var i=0; i<partNum; ++i){
-                        var cNum = parseInt(Math.random() * colorDist.length + 0);
+                    var first = 0;
+                    for(var i=0; i<30; ++i){//2片雪花
+                        var cNum = parseInt(Math.random()*2+0);
                         particles.push({
-                            x: Math.random()*canvas.width,//在canvas随机出现的x轴坐标
-                            y: 0,//在canvas的y坐标为0上出现
-                            speed: 1+Math.random()*2, //雪花速度的随机数范围
-                            radius: 0.01+Math.random()*1, //雪花大小的随机数范围
-                            color: colorDist[cNum]//随机一种雪花颜色
+                            x: Math.random()*canvas.width,//在canvas宽度内随机出现
+                            y: 0,
+                            speed: 1+Math.random()*2, //between 1 and 3
+                            radius: 0.5+Math.random()*1.5, //between 1 and 5
+                            color: colorDist[cNum]
                         });
                     }
                 }
@@ -97,7 +103,7 @@
                     }
                 }
                 function moveSnow(){//雪花运动
-                    setInterval(drawSnow,40);//40ms后canvas重绘
+                    setInterval(drawSnow,40);
                 }
             }
         </script>
